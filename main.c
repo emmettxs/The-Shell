@@ -46,7 +46,7 @@ int main()
 	process (cmd);                          // This will execute command
 
 	if (getenv ("DUMP_TREE_AGAIN")) {       // Dump command tree again if
-	    dumpTree (cmd, 0);                  //   environment variable set
+	    dumpTree (cmd, 0);                  //   environment variable is set
 	    printf ("\n");
 	    fflush (stdout);
 	}
