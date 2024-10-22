@@ -28,6 +28,8 @@ void redirection(const CMD *cmd) {
         // Create a temporary file
         char template[] = "/tmp/XXXXXX";
         int fd_temp = mkstemp(template);
+
+        // Checks if bad file
         if (fd_temp == -1) {
             int error = errno;
             perror("Bad Fork");
