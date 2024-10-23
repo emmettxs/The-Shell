@@ -35,7 +35,7 @@ void redirection(const CMD *cmd) {
             exit(error);
         }
 
-        // Write the contents of the here document to the temporary file
+        // Write the contents of the here document to the temporary files
         if (write(fd_temp, cmd->fromFile, strlen(cmd->fromFile)) == -1) {
             int error = errno;
             perror("Bad Fork");
@@ -43,7 +43,7 @@ void redirection(const CMD *cmd) {
         }
         close(fd_temp);
 
-        // Open the temporary file for reading
+        // Open the temporary file for readings
         int fd = open(template, O_RDONLY);
         if (fd == -1) {
             int error = errno;
@@ -52,6 +52,7 @@ void redirection(const CMD *cmd) {
         }
 
         // Redirect stdin
+        // 
         if (dup2(fd, STDIN_FILENO) == -1) {
             int error = errno;
             perror("Bad Fork");
@@ -61,6 +62,7 @@ void redirection(const CMD *cmd) {
     }
 
     // Handle output redirection
+    //
     if (cmd->toType == RED_OUT) {
         int fd = open(cmd->toFile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (fd == -1) {
@@ -98,13 +100,13 @@ int change_directory(const CMD *cmd) {
         if (home == NULL) {
             perror("");
             return 1;
-            //exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE); or exits
         }
 
         if (chdir(home) != 0) {
             perror("chdir");
             return 1;
-            //exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE); or exits
         }
 
         return 0;
@@ -123,13 +125,14 @@ int change_directory(const CMD *cmd) {
     }
 }
 
-
+// necessary library
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 // Define a structure for stack nodes
+//
 typedef struct Node {
     char directory[256]; 
     struct Node *next;
@@ -154,6 +157,7 @@ void pop()
     if (top == NULL) {
         exit(EXIT_FAILURE);
     }
+    //
     Node *temp = top;
     top = top->next;
     free(temp);
@@ -165,6 +169,7 @@ void printStack() {
         printf(" %s", current->directory);
         current = current->next;
     }
+    //
     printf("\n");
 }
 
