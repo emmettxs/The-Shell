@@ -173,7 +173,22 @@ void printStack() {
     printf("\n");
 }
 
-
+void pushd(const char *dirName) {
+    //
+    char cwd[256];
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        perror("getcwd");
+        return;
+    }
+    push(cwd); 
+    if (chdir(dirName) != 0) {
+        perror("chdir");
+        pop(); 
+        return;
+    }
+    printf("%s", getcwd(NULL, 0));
+    printStack(); 
+}
 
 void popd() {
     if (top == NULL) {
